@@ -1,19 +1,21 @@
 "use client"
 
 import { useState } from "react"
-import Image, { type ImageProps } from "next/image"
+import Image from "next/image"
 
-interface ImageFallbackProps extends Omit<ImageProps, "src" | "onError"> {
+interface ImageFallbackProps {
   src: string
   fallbackSrc: string
+  alt: string
+  [key: string]: any
 }
 
-export default function ImageFallback({ src, fallbackSrc, alt, ...rest }: ImageFallbackProps) {
+export default function ImageFallback({ src, fallbackSrc, alt, ...props }: ImageFallbackProps) {
   const [imgSrc, setImgSrc] = useState(src)
 
   return (
     <Image
-      {...rest}
+      {...props}
       src={imgSrc || "/placeholder.svg"}
       alt={alt}
       onError={() => {
