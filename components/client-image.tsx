@@ -1,23 +1,32 @@
 "use client"
 
 import { useState } from "react"
-import Image, { type ImageProps } from "next/image"
+import Image from "next/image"
 
-interface ClientImageProps extends Omit<ImageProps, "onError"> {
-  fallbackSrc?: string
+type ClientImageProps = {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+  className?: string
 }
 
-export default function ClientImage({ src, alt, fallbackSrc = "/placeholder.png", ...props }: ClientImageProps) {
+const ClientImage = ({ src, alt, width = 400, height = 300, className = "" }: ClientImageProps) => {
   const [imgSrc, setImgSrc] = useState(src)
 
   return (
     <Image
-      {...props}
       src={imgSrc || "/placeholder.png"}
       alt={alt}
+      width={width}
+      height={height}
+      className={className}
       onError={() => {
-        setImgSrc(fallbackSrc)
+        setImgSrc("/placeholder.png")
       }}
+      priority
     />
   )
 }
+
+export default ClientImage
