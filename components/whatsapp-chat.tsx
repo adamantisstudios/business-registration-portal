@@ -1,121 +1,60 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { MessageSquare, Send, X } from "lucide-react"
+import type React from "react"
 
-const quickMessages = [
-  {
-    id: "registration",
-    icon: "file-text",
-    text: "Ask about registration status",
-    message:
-      "Hi! I recently submitted my business registration form and would like to check on the status of my application. Can you please provide an update?",
-  },
-  {
-    id: "services",
-    icon: "briefcase",
-    text: "Inquire about services",
-    message:
-      "Hello! I am interested in learning more about your business services. Can you provide me with detailed information about what you offer?",
-  },
-  {
-    id: "pricing",
-    icon: "dollar-sign",
-    text: "Get pricing information",
-    message:
-      "Hi! I would like to get detailed pricing information for your services. Can you send me a comprehensive price list?",
-  },
-  {
-    id: "support",
-    icon: "headset",
-    text: "Technical support",
-    message: "Hello! I need technical support with your services. Can someone assist me with my questions?",
-  },
-  {
-    id: "consultation",
-    icon: "calendar",
-    text: "Book consultation",
-    message:
-      "Hi! I would like to book a consultation to discuss my business needs. What are your available time slots?",
-  },
-]
+import { useState } from "react"
+import { MessageCircle, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function WhatsAppChat() {
   const [isOpen, setIsOpen] = useState(false)
-  const [customMessage, setCustomMessage] = useState("")
+  const phoneNumber = "+233123456789" // Replace with your actual WhatsApp number
 
   const toggleChat = () => {
     setIsOpen(!isOpen)
   }
 
-  const sendQuickMessage = (message: string) => {
-    const encodedMessage = encodeURIComponent(message)
-    const whatsappUrl = `https://wa.me/233242799990?text=${encodedMessage}`
-    window.open(whatsappUrl, "_blank")
-    setIsOpen(false)
-  }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const message = formData.get("message") as string
 
-  const sendCustomMessage = () => {
-    if (!customMessage.trim()) return
-
-    const encodedMessage = encodeURIComponent(customMessage)
-    const whatsappUrl = `https://wa.me/233242799990?text=${encodedMessage}`
-    window.open(whatsappUrl, "_blank")
-    setCustomMessage("")
-    setIsOpen(false)
+    if (message.trim()) {
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+      window.open(whatsappUrl, "_blank")
+      setIsOpen(false)
+    }
   }
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
-      <Button
-        onClick={toggleChat}
-        className={`rounded-full p-4 shadow-lg ${
-          isOpen ? "bg-green-700 hover:bg-green-800" : "bg-green-600 hover:bg-green-700"
-        }`}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
-        <span className="sr-only">Chat with us</span>
-      </Button>
-
-      {isOpen && (
-        <Card className="absolute bottom-16 left-0 w-80 shadow-xl">
-          <CardHeader className="bg-green-600 text-white">
-            <CardTitle className="text-lg">Chat with us</CardTitle>
-            <CardDescription className="text-green-100">Select a quick message or type your own</CardDescription>
-          </CardHeader>
-          <CardContent className="p-3 space-y-2 max-h-80 overflow-y-auto">
-            {quickMessages.map((item) => (
-              <Button
-                key={item.id}
-                variant="outline"
-                className="w-full justify-start text-left h-auto py-3"
-                onClick={() => sendQuickMessage(item.message)}
-              >
-                {item.text}
-              </Button>
-            ))}
-            <div className="pt-2">
-              <Textarea
-                placeholder="Type your message here..."
-                value={customMessage}
-                onChange={(e) => setCustomMessage(e.target.value)}
-                className="min-h-[80px]"
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="border-t p-3">
-            <Button
-              onClick={sendCustomMessage}
-              disabled={!customMessage.trim()}
-              className="w-full bg-green-600 hover:bg-green-700"
-            >
-              <Send className="mr-2 h-4 w-4" /> Send Message
+    <div className="fixed bottom-6 right-6 z-50">
+      {isOpen ? (
+        <div className="bg-white rounded-lg shadow-lg p-4 w-80 mb-4 border border-gray-200">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="font-bold text-green-600">WhatsApp Chat</h3>
+            <Button variant="ghost" size="icon" onClick={toggleChat} className="h-8 w-8">
+              <X className="h-4 w-4" />
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <textarea
+              name="message"
+              className="w-full border border-gray-300 rounded p-2 mb-2 h-24 resize-none"
+              placeholder="Type your message here..."
+              required
+            ></textarea>
+            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
+              Send Message
+            </Button>
+          </form>
+        </div>
+      ) : (
+        <Button
+          onClick={toggleChat}
+          className="rounded-full h-14 w-14 flex items-center justify-center bg-green-600 hover:bg-green-700 shadow-lg"
+        >
+          <MessageCircle className="h-6 w-6 text-white" />
+        </Button>
       )}
     </div>
   )
