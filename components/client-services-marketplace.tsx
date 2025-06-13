@@ -1,9 +1,6 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -20,6 +17,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import ClientImage from "./client-image"
 
 // Service categories
 const categories = [
@@ -42,7 +40,7 @@ const services = [
       "Professional logo design for your brand identity with unlimited revisions and multiple format delivery",
     price: 200,
     category: "branding",
-    image: "/assets/services/logo-design.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
   },
   {
@@ -51,7 +49,7 @@ const services = [
     description: "High-quality business cards with professional design (500 pieces) printed on premium cardstock",
     price: 50,
     category: "branding",
-    image: "/assets/services/business-cards.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 3,
@@ -59,7 +57,7 @@ const services = [
     description: "Professional letterhead design for official correspondence with your company branding",
     price: 80,
     category: "branding",
-    image: "/assets/services/letterhead.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 4,
@@ -67,7 +65,7 @@ const services = [
     description: "Eye-catching marketing brochures to showcase your business",
     price: 150,
     category: "branding",
-    image: "/assets/services/brochure.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 5,
@@ -75,7 +73,7 @@ const services = [
     description: "Professional business website with mobile optimization, SEO, and content management system",
     price: 800,
     category: "digital",
-    image: "/assets/services/website.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
   },
   {
@@ -84,7 +82,7 @@ const services = [
     description: "Facebook, Instagram, and LinkedIn business pages with content strategy and initial posts",
     price: 300,
     category: "digital",
-    image: "/assets/services/social-media.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 7,
@@ -92,7 +90,7 @@ const services = [
     description: "High-converting landing page designed to capture leads with compelling copy and call-to-actions",
     price: 400,
     category: "digital",
-    image: "/assets/services/landing-page.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 8,
@@ -100,7 +98,7 @@ const services = [
     description: "Professional video advertisements for social media marketing with script writing and editing",
     price: 500,
     category: "digital",
-    image: "/assets/services/video-ads.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 9,
@@ -109,7 +107,7 @@ const services = [
       "Comprehensive business plan for funding, strategy, and growth with financial projections and market analysis",
     price: 600,
     category: "documentation",
-    image: "/assets/services/business-plan.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
   },
   {
@@ -119,7 +117,7 @@ const services = [
       "Professional proposals for contracts, partnerships, and funding with persuasive content and formatting",
     price: 300,
     category: "documentation",
-    image: "/assets/services/proposals.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 11,
@@ -127,7 +125,7 @@ const services = [
     description: "HR policies, procedures, and employee handbooks tailored to your business needs and Ghana labor laws",
     price: 400,
     category: "documentation",
-    image: "/assets/services/policies.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 12,
@@ -136,7 +134,7 @@ const services = [
       "Legal contract templates customized for your business needs including employment, service, and vendor contracts",
     price: 200,
     category: "documentation",
-    image: "/assets/services/contracts.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 13,
@@ -145,7 +143,7 @@ const services = [
       "Complete assistance with business bank account opening process including document preparation and bank liaison",
     price: 150,
     category: "financial",
-    image: "/assets/services/bank-account.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
   },
   {
@@ -155,7 +153,7 @@ const services = [
       "VAT and income tax registration with Ghana Revenue Authority including TIN application and compliance setup",
     price: 250,
     category: "financial",
-    image: "/assets/services/tax-registration.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 15,
@@ -163,7 +161,7 @@ const services = [
     description: "Basic accounting system setup with training, chart of accounts, and monthly bookkeeping support",
     price: 400,
     category: "financial",
-    image: "/assets/services/bookkeeping.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 16,
@@ -172,7 +170,7 @@ const services = [
       "Business insurance advice and policy setup assistance including liability, property, and professional indemnity",
     price: 100,
     category: "financial",
-    image: "/assets/services/insurance.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 17,
@@ -181,7 +179,7 @@ const services = [
       "Professional job advertisements on multiple platforms including job boards, social media, and recruitment sites",
     price: 100,
     category: "hr",
-    image: "/assets/services/job-posting.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
   },
   {
@@ -191,7 +189,7 @@ const services = [
       "Initial screening and shortlisting of qualified candidates including CV review, phone interviews, and reference checks",
     price: 200,
     category: "hr",
-    image: "/assets/services/screening.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 19,
@@ -200,7 +198,7 @@ const services = [
       "Complete HR policy framework tailored to your business including recruitment, performance management, and disciplinary procedures",
     price: 500,
     category: "hr",
-    image: "/assets/services/hr-policies.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 20,
@@ -209,7 +207,7 @@ const services = [
       "Payroll system implementation with training, tax calculations, and ongoing monthly payroll processing support",
     price: 300,
     category: "hr",
-    image: "/assets/services/payroll.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 21,
@@ -218,7 +216,7 @@ const services = [
       "Professional consultation on the best legal structure for your business including sole proprietorship vs company registration",
     price: 200,
     category: "legal",
-    image: "/assets/services/legal-advice.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
   },
   {
@@ -228,7 +226,7 @@ const services = [
       "Comprehensive review of your business compliance requirements including regulatory, tax, and industry-specific compliance",
     price: 400,
     category: "legal",
-    image: "/assets/services/compliance-audit.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 23,
@@ -237,7 +235,7 @@ const services = [
       "Professional assistance with various business permit applications including environmental, health, and industry-specific permits",
     price: 300,
     category: "legal",
-    image: "/assets/services/permits.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 24,
@@ -246,7 +244,7 @@ const services = [
       "Professional review and advice on business legal documents including contracts, agreements, and compliance documents",
     price: 250,
     category: "legal",
-    image: "/assets/services/document-review.jpg",
+    image: "/placeholder.png?height=200&width=300",
   },
   {
     id: 25,
@@ -255,7 +253,7 @@ const services = [
     price: 1200,
     originalPrice: 1500,
     category: "packages",
-    image: "/assets/packages/startup-essential.jpg",
+    image: "/placeholder.png?height=200&width=300",
     popular: true,
     items: [
       "Logo Design",
@@ -274,7 +272,7 @@ const services = [
     price: 2000,
     originalPrice: 2500,
     category: "packages",
-    image: "/assets/packages/growth-package.jpg",
+    image: "/placeholder.png?height=200&width=300",
     items: [
       "Everything in Startup Essential",
       "Comprehensive Business Plan",
@@ -292,7 +290,7 @@ const services = [
     price: 3200,
     originalPrice: 4000,
     category: "packages",
-    image: "/assets/packages/premium-business.jpg",
+    image: "/placeholder.png?height=200&width=300",
     items: [
       "Everything in Growth Package",
       "Advanced Website with E-commerce",
@@ -304,7 +302,7 @@ const services = [
   },
 ]
 
-export default function ClientServicesMarketplace() {
+export default function ServicesMarketplace() {
   const [activeCategory, setActiveCategory] = useState("all")
   const [cart, setCart] = useState<number[]>([])
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false)
@@ -369,13 +367,6 @@ export default function ClientServicesMarketplace() {
 
   const isInCart = (serviceId: number) => cart.includes(serviceId)
 
-  // Handle image error
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.target as HTMLImageElement
-    target.src = "/placeholder.png?height=200&width=300"
-    target.alt = "Image not available"
-  }
-
   return (
     <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -404,12 +395,12 @@ export default function ClientServicesMarketplace() {
                 {filteredServices.map((service) => (
                   <Card key={service.id} className="overflow-hidden transition-all hover:shadow-lg">
                     <div className="relative h-48">
-                      <Image
-                        src={service.image || "/placeholder.png"}
+                      <ClientImage
+                        src={service.image}
                         alt={service.name}
                         fill
                         className="object-cover"
-                        onError={handleImageError}
+                        fallbackSrc="/placeholder.png?height=200&width=300"
                       />
                       {service.popular && <Badge className="absolute top-2 right-2 bg-blue-600">Popular</Badge>}
                     </div>
